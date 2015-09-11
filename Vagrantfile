@@ -69,12 +69,26 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get install -y apache2
   # SHELL
 
-  config.vm.provision :chef_solo do |chef|
-	  chef.log_level = "debug"
-	  chef.cookbooks_path = "./cookbooks"
+  #config.vm.provision :chef_solo do |chef|
+  #    chef.log_level = "debug"
+  #    chef.cookbooks_path = "./cookbooks"
+  #end
+  config.vm.provision "chef_solo" do |chef|
+	  chef.cookbooks_path = "chef/site-cookbooks/"
+	  chef.run_list = %w[
+			recipe[localedef]
+			recipe[remi]
+			recipe[apache]
+			recipe[apache::phpms]
+			recipe[php]
+			recipe[mysql]
+			recipe[mysql::createdb]
+			recipe[mysql::createtable]
+	  ]
   end
+  config.omnibus.chef_version = :latest
 
   config.vm.provider "virtualbox" do |vb|
-	  vb.customize ["modifyvm", :id, "--memory", "2048"]
+	  vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
 end
