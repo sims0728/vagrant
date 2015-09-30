@@ -81,9 +81,8 @@ Vagrant.configure(2) do |config|
 			recipe[apache]
 			recipe[apache::phpms]
 			recipe[php]
+			recipe[ruby]
 			recipe[mysql]
-			recipe[mysql::createdb]
-			recipe[mysql::createtable]
 	  ]
   end
   config.omnibus.chef_version = :latest
